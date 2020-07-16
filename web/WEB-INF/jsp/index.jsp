@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
     <style>
         #body {
             overflow: hidden;
@@ -50,7 +50,7 @@
                     <a class="" href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" src="/user/list">用户查询</a></dd>
-                        <dd><a href="javascript:;">用户新增</a></dd>
+                        <dd><a href="javascript:;" src="/user/add">用户新增</a></dd>
                         <dd><a href="javascript:;">用户修改</a></dd>
                         <dd><a href="javascript:;">用户删除</a></dd>
                     </dl>
@@ -86,7 +86,7 @@
 
 
 
-<script src="/layui/layui.all.js"></script>
+<script src="/static/layui/layui.all.js"></script>
 <script>
     //一般直接写在一个js文件中
     layui.use('element', function(){

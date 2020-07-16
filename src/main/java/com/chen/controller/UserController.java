@@ -36,4 +36,9 @@ public class UserController {
     public String toUserList() {
         return "user/list";
     }
+
+    @RequestMapping("/add")
+    public String toUserAdd() {
+        return "user/add";
+    }
 }

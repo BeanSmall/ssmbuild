@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
     <style>
         #box {
 
@@ -46,7 +46,7 @@
     </form>
 </div>
 
-<script src="/layui/layui.all.js"></script>
+<script src="/static/layui/layui.all.js"></script>
 <script>
     //一般直接写在一个js文件中
     layui.use(['layer', 'form'], function(){
