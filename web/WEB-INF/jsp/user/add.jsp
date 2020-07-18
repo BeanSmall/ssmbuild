@@ -11,68 +11,49 @@
     <title>Title</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
     <style>
-        #box{
-            margin: 100px;
-            width: 450px;
 
-        }
-        /** 表单验证 样式布局 **/
-        label.error {
-            position: absolute;
-            right: 18px;
-            top: 10px;
-            color: #ef392b;
-            font-size: 12px
-        }
-
-        .input-group label.error {
-            z-index:99;
-            right: 42px
-        }
-
-        .input-group.date label.error {
-            z-index:99;
-            right: 3px
-        }
-
-        .Validform_error,input.error,select.error {
-            background-color: #fbe2e2;
-            border-color: #c66161;
-            color: #c00
-        }
-
-        .Validform_wrong,.Validform_right,.Validform_warning {
-            display: inline-block;
-            height: 20px;
-            font-size: 12px;
-            vertical-align: middle;
-            padding-left: 25px
-        }
-
-        .i-checks label.error, .check-box label.error, .radio-box label.error {
-            right: auto;
-            width: 150px;
-            left: 210px;
-            top: 1px;
-            max-width: none;
-        }
     </style>
 </head>
 <body>
 <div id="box">
 
-    <form class="layui-form" action="" id="user_add">
+    <form class="layui-form" action="save" id="user_add" method="post">
         <div class="layui-form-item">
-            <label class="layui-form-label">输入框</label>
+            <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
-                <input type="text" name="title" required placeholder="请输入标题" autocomplete="off" class="layui-input">
+                <input type="text" name="username" required placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">住址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" required placeholder="请输入住址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生日期</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">头像</label>
+            <button type="button" class="layui-btn layui-btn-danger"  id="photo"><i class="layui-icon"></i>上传图片</button>
+            <input type="hidden" name="photo">
+            <div class="layui-inline layui-word-aux">
+                这里以限制 500KB 为例
             </div>
         </div>
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
+                <button type="submit"  class="layui-btn layui-btn-danger">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -80,37 +61,60 @@
     </form>
 </div>
 
-
 <script src="/static/validate/jquery.min.js"></script>
 <script src="/static/validate/jquery.validate.min.js"></script>
 <script src="/static/validate/messages_zh.min.js"></script>
 <script src="/static/validate/jquery.validate.extend.js"></script>
+
+<%--<%@ include file=""%>--%>
+
 <script src="/static/layui/layui.all.js"></script>
 <script>
     //一般直接写在一个js文件中
     //一般直接写在一个js文件中
-    /*layui.use(['layer', 'jquery'], function (layer, $) {
+    layui.use(['layer', 'jquery','laydate','upload'], function (layer, $, laydate,upload) {
 
-    });*/
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var upload = layui.upload;
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#birthday'
+            ,type: 'datetime'
+        });
+
+        upload.render({
+            elem: '#photo'
+            ,url: 'upload' //改成您自己的上传接口
+            ,size: 500 //限制文件大小，单位 KB
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                //预读本地文件示例，不支持ie8
+               layer.load(2,{time: 200});
+            }
+            ,done: function(res){
+                layer.close();
+                layer.msg('上传成功');
+                console.log(res)
+            }
+        });
+    });
 
     $("#user_add").validate({
         onkeyup: false,
         rules: {
-            title: {
+            username: {
                 minlength: 5,
                 maxlength: 20,
+            },
+            address: {
+                minlength: 10,
+                maxlength: 50,
             }
+
         }
     });
 
-    function submitHandler() {
-        if ($.validate.form()) {
-
-
-            alert(123);
-            /*layer.msg("验证通过！！")*/
-        }
-    }
 </script>
 
 <script>

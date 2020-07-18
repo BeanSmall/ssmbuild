@@ -73,7 +73,7 @@
 
     <div class="layui-body" id="body">
         <!-- 内容主体区域 -->
-        <iframe id="iframeBox" src="https://www.baidu.com">
+        <iframe id="iframeBox" src="">
 
         </iframe>
     </div>

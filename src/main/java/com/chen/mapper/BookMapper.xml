@@ -36,7 +36,16 @@
 
     <!--根据书名查询数据-->
     <select id="queryBooksByName" resultType="Books">
-        select * from ssmbuild.books where bookName = #{bookName}
+        select * from ssmbuild.books
+
+        <where>
+            <if test="bookName != '' and bookName != null">
+                bookName = #{bookName}
+            </if>
+
+
+        </where>
+        /*where bookName = #{bookName}*/
     </select>
 
 </mapper>

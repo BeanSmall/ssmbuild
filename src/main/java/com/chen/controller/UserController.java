@@ -1,16 +1,22 @@
 package com.chen.controller;
 
+import cn.hutool.core.io.FileUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.chen.pojo.User;
 import com.chen.service.UserService;
+import com.chen.util.LayData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
 
     @Resource
     private UserService userService;
@@ -40,5 +46,24 @@ public class UserController {
     @RequestMapping("/add")
     public String toUserAdd() {
         return "user/add";
+    }
+
+    @RequestMapping("/save")
+    public String addSave(User user) {
+        System.out.println(user);
+        return "user/add";
+    }
+
+    /*@RequestMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile file) {
+
+        return super.toString();
+    }*/
+
+    @RequestMapping(value="/upload")
+    @ResponseBody
+    public String upload(@RequestParam("file")MultipartFile file) throws Exception{
+        FileUtil.writeBytes(file.getBytes(),"D:/upload/1.png");
+        return JSONObject.toJSONString(LayData.data_upload(0L,"上传成功"));
     }
 }
