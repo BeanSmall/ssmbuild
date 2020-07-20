@@ -1,8 +1,5 @@
 package com.chen.pojo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,8 +13,8 @@ public class User implements Serializable {
 
     private String address;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JSONField(format = "yyyy-MM-dd")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    //@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date birthday;
 
     public Integer getId() {

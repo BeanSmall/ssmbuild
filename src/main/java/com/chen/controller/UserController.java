@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -38,9 +39,34 @@ public class UserController extends BaseController{
         }
     }
 
-    @RequestMapping("/list")
+    @RequestMapping("/tolist")
     public String toUserList() {
         return "user/list";
+    }
+
+    //@RequestMapping(value = "/list", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public Object getUserList(){
+        List<User> list = userService.getUserList();
+        return JSONObject.toJSON(list);
+
+    }
+
+    @RequestMapping(value = "/list2")
+    @ResponseBody
+    public String getUserList2(){
+        List<User> list = userService.getUserList();
+        return JSONObject.toJSONString(list);
+
+    }
+
+    @RequestMapping(value = "/list3")
+    @ResponseBody
+    public LayData getUserList3(){
+        int count = userService.count();
+        List<User> list = userService.getUserList();
+        return new LayData(0,"成功",count,list);
     }
 
     @RequestMapping("/add")
@@ -54,16 +80,12 @@ public class UserController extends BaseController{
         return "user/add";
     }
 
-    /*@RequestMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file) {
 
-        return super.toString();
-    }*/
 
     @RequestMapping(value="/upload")
     @ResponseBody
-    public String upload(@RequestParam("file")MultipartFile file) throws Exception{
+    public String upload(@RequestParam("file") MultipartFile file) throws Exception{
         FileUtil.writeBytes(file.getBytes(),"D:/upload/1.png");
-        return JSONObject.toJSONString(LayData.data_upload(0L,"上传成功"));
+        return JSONObject.toJSONString(new LayData(0,"上传成功"));
     }
 }

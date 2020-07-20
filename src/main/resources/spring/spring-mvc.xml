@@ -13,8 +13,7 @@
     <!-- 将SpringMVC配置到web中 -->
     <!-- 1.开启SpringMVC注解驱动 -->
     <mvc:annotation-driven>
-
-        <!--<mvc:message-converters>
+        <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
@@ -25,16 +24,16 @@
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
-                        <value>application/json;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
                     </list>
                 </property>
-                <property name="features>">
+                <property name="features">
                     <list>
                         <value>WriteDateUseDateFormat</value>
                     </list>
                 </property>
             </bean>
-        </mvc:message-converters>-->
+        </mvc:message-converters>
     </mvc:annotation-driven>
     <!-- 2.静态资源默认servlet配置-->
     <!--方式一-->

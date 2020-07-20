@@ -1,32 +1,62 @@
 package com.chen.util;
 
-import java.util.HashMap;
 import java.util.List;
 
-/**
- * <Description> <br>
- *
- * @author tao<br>
- * @version 1.0<br>
- * @taskId: <br>
- * @createDate 2019/09/19 16:36 <br>
- * @see com.bdqn.util <br>
- */
-public class LayData extends HashMap<String, Object> {
+public class LayData {
 
-    public static LayData data(Long count, List<?> data){
-        LayData r = new LayData();
-        r.put("code", 0);
-        r.put("msg", "");
-        r.put("count", count);
-        r.put("data", data);
-        return r;
+    private int code;
+
+    private String msg;
+
+    private int count;
+
+    private List<?> data;
+
+    public LayData() {
     }
 
-    public static LayData data_upload(Long code,String msg){
-        LayData r = new LayData();
-        r.put("code", code);
-        r.put("msg", msg);
-        return r;
+    public LayData(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public LayData(int code, String msg, int count, List<?> data) {
+        this.code = code;
+        this.msg = msg;
+        this.count = count;
+        this.data = data;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public List<?> getData() {
+        return data;
+    }
+
+    public void setData(List<?> data) {
+        this.data = data;
     }
 }
