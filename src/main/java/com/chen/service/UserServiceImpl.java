@@ -18,11 +18,27 @@ public class UserServiceImpl implements UserService{
         return userMapper.login(username,password);
     }
 
-    public List<User> getUserList() {
-        return userMapper.getUserList();
+    public List<User> getUserList(Integer page,Integer limit) {
+
+        return userMapper.getUserList((page-1) * limit,limit);
     }
 
     public int count() {
         return userMapper.count();
+    }
+
+    public boolean delAll(String ids) {
+        boolean flag = true;
+        if(ids != null){
+            String[] arr = ids.split("-");
+            for (int i = 0; i < arr.length; i++) {
+                int status = userMapper.delById(Integer.parseInt(arr[i]));
+                if(status <= 0){
+                    flag = false;
+                    return flag;
+                }
+            }
+        }
+        return flag;
     }
 }

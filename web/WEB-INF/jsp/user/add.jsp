@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/summernote/summernote.css">
+    <link rel="stylesheet" href="/static/summernote/summernote-bs3.css">
 
     <style>
 
@@ -52,6 +54,21 @@
         </div>
 
         <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>备注</h5>
+                    </div>
+                    <div class="ibox-content no-padding">
+                        <div class="summernote">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="submit"  class="layui-btn layui-btn-danger">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -65,6 +82,8 @@
 <script src="/static/validate/jquery.validate.min.js"></script>
 <script src="/static/validate/messages_zh.min.js"></script>
 <script src="/static/validate/jquery.validate.extend.js"></script>
+<script src="/static/summernote/summernote.js"></script>
+<script src="/static/summernote/summernote-zh-CN.js"></script>
 
 <%--<%@ include file=""%>--%>
 

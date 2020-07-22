@@ -8,7 +8,9 @@ public interface UserService {
 
     int login(String username, String password);
 
-    List<User> getUserList();
+    List<User> getUserList(Integer page,Integer limit);
 
     int count();
+
+    boolean delAll(String ids);
 }

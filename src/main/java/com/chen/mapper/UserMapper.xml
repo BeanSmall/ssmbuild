@@ -13,11 +13,15 @@
 
 
     <select id="getUserList" resultType="User">
-        select * from sys_user;
+        select * from sys_user where del_flag = '0' limit #{from},#{pageSize};
     </select>
 
     <select id="count" resultType="int">
-        select count(1) from sys_user;
+        select count(1) from sys_user where del_flag = '0';
     </select>
+
+    <delete id="delById">
+      update sys_user set del_flag = '1' where id = #{id};
+    </delete>
 
 </mapper>

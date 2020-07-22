@@ -15,7 +15,9 @@ public interface UserMapper {
 
     //int login2(User user);
 
-    List<User> getUserList();
+    List<User> getUserList(@Param("from") Integer from, @Param("pageSize") Integer pageSize);
 
     int count();
+
+    int delById(@Param("id") Integer id);
 }

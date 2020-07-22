@@ -6,6 +6,7 @@ import com.chen.pojo.User;
 import com.chen.service.UserService;
 import com.chen.util.LayData;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,27 +46,27 @@ public class UserController extends BaseController{
     }
 
     //@RequestMapping(value = "/list", produces = "application/json;charset=UTF-8")
-    @RequestMapping(value = "/list")
-    @ResponseBody
-    public Object getUserList(){
-        List<User> list = userService.getUserList();
-        return JSONObject.toJSON(list);
-
-    }
-
-    @RequestMapping(value = "/list2")
-    @ResponseBody
-    public String getUserList2(){
-        List<User> list = userService.getUserList();
-        return JSONObject.toJSONString(list);
-
-    }
+//    @RequestMapping(value = "/list")
+//    @ResponseBody
+//    public Object getUserList(){
+//        List<User> list = userService.getUserList();
+//        return JSONObject.toJSON(list);
+//
+//    }
+//
+//    @RequestMapping(value = "/list2")
+//    @ResponseBody
+//    public String getUserList2(){
+//        List<User> list = userService.getUserList();
+//        return JSONObject.toJSONString(list);
+//
+//    }
 
     @RequestMapping(value = "/list3")
     @ResponseBody
-    public LayData getUserList3(){
+    public LayData getUserList3(@RequestParam("page") Integer page,@RequestParam("limit") Integer limit){
         int count = userService.count();
-        List<User> list = userService.getUserList();
+        List<User> list = userService.getUserList(page,limit);
         return new LayData(0,"成功",count,list);
     }
 
@@ -80,6 +81,14 @@ public class UserController extends BaseController{
         return "user/add";
     }
 
+
+
+    //批量删除的操作
+    @RequestMapping("/delAll/{ids}")
+    @ResponseBody
+    public boolean delAll(@PathVariable("ids") String ids){
+        return userService.delAll(ids);
+    }
 
 
     @RequestMapping(value="/upload")
