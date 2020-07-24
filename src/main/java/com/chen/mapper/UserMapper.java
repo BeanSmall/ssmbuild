@@ -20,4 +20,6 @@ public interface UserMapper {
     int count();
 
     int delById(@Param("id") Integer id);
+
+    User getUserById(@Param("id") Integer id);
 }

@@ -27,6 +27,11 @@ public class UserServiceImpl implements UserService{
         return userMapper.count();
     }
 
+
+    public User getUserById(Integer id) {
+        return userMapper.getUserById(id);
+    }
+
     public boolean delAll(String ids) {
         boolean flag = true;
         if(ids != null){

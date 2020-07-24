@@ -13,4 +13,6 @@ public interface UserService {
     int count();
 
     boolean delAll(String ids);
+
+    User getUserById(Integer id);
 }

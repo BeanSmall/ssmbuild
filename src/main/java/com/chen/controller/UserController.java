@@ -82,6 +82,15 @@ public class UserController extends BaseController{
     }
 
 
+    //根据id查询用户信息
+    @RequestMapping("/getUserById/{id}")
+    @ResponseBody
+    public User getUserById(@PathVariable("id") Integer id){
+        return userService.getUserById(id);
+    }
+
+
+
 
     //批量删除的操作
     @RequestMapping("/delAll/{ids}")

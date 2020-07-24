@@ -20,6 +20,11 @@
         select count(1) from sys_user where del_flag = '0';
     </select>
 
+
+    <select id="getUserById" resultType="User">
+        select * from sys_user where del_flag = '0' and id = #{id};
+    </select>
+
     <delete id="delById">
       update sys_user set del_flag = '1' where id = #{id};
     </delete>

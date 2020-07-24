@@ -11,7 +11,10 @@
     <title>Title</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <style>
-
+        #user_edit {
+            margin-top: 30px;
+            padding-right: 80px;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +34,39 @@
             <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
         </div>
     </script>
+
+
+    <script type="text/html" id="rightBar">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="changeStatus">禁用</a>
+        <a class="layui-btn layui-btn-xs" lay-event="changeStatus">启用</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+    <form class="layui-form" action="save" id="user_edit" method="post">
+
+        <input type="hidden" value="" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" id="username" name="username"  required placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">住址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" required placeholder="请输入住址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生日期</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+    </form>
 
 <script src="/static/layui/layui.all.js"></script>
 <script>
@@ -58,6 +94,7 @@
                 ,{field:'username', width:120, title: '用户名',align: 'center'}
                 ,{field:'address', width:80, title: '地址', sort: true}
                 ,{field:'birthday', title: '出生日期',sort: true}
+                ,{fixed: 'right', title:'操作', toolbar: '#rightBar', width:250}
             ]]
         });
 
@@ -66,19 +103,27 @@
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
                 case 'getCheckData':
-                    var data = checkStatus.data;
-                    var arr = JSON.parse(JSON.stringify(data));
-                    var ids = new Array();
-                    for (var i = 0; i < arr.length;i++) {
-                        ids.push(arr[i].id);
-                    }
-                    var str = ids.join("-");
-                    console.log(str);
-                    $.ajax({url:"delAll/"+str,success:function(result){
-                        if(result){
-                            render1.reload({page:{curr:1}});
+                    layer.confirm('确认删除这'+checkStatus.data.length+'条数据吗?', {icon: 3, title:'提示'}, function(index){
+                        var data = checkStatus.data;
+                        var arr = JSON.parse(JSON.stringify(data));
+                        var ids = new Array();
+                        for (var i = 0; i < arr.length;i++) {
+                            ids.push(arr[i].id);
                         }
-                    }});
+                        var str = ids.join("-");
+                        console.log(str);
+                        $.ajax({url:"delAll/"+str,success:function(result){
+                                if(result){
+                                    render1.reload({page:{curr:1}});
+                                }
+                            }});
+                        layer.close(index);
+                        layer.msg('删除成功！', {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
+                    });
+
 
                     break;
                 case 'getCheckLength':
@@ -93,6 +138,56 @@
                     layer.alert('这是工具栏右侧自定义的一个图标按钮');
                     break;
             };
+        });
+
+        table.on('tool(userlist)', function(obj){
+            var data = obj.data;
+            // console.log(data.id);
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({url:"delAll/"+data.id,success:function(result){
+                            if(result){
+                                render1.reload({page:{curr:1}});
+                            }
+                        }});
+                    layer.close(index);
+                    layer.msg('删除成功！', {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    });
+                });
+            } else if(obj.event === 'edit'){
+
+                $.ajax({url:"getUserById/"+data.id,success:function(data) {
+                        if (data) {
+                            var obj = $.parseJSON(data)
+                            $('input[name=username]').val(obj.username);
+                            $("input[name=address]").val(obj.address);
+                            $("input[name=birthday]").val(obj.birthday);
+                            $("input[name=id]").val(obj.id);
+                        }
+                    }
+                });
+                var $user_edit = $('#user_edit');
+                //示范一个公告层
+                layer.open({
+                    type: 1
+                    ,title: ['编辑用户信息', 'font-size:18px; background-color: #eea236;']
+                    ,closeBtn: 1
+                    ,area:['500px', '400px']
+                    ,shade: 0.4
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['火速围观', '残忍拒绝']
+                    ,btnAlign: 'c'
+                    ,content: $user_edit
+                    ,success: function(layero){
+                        // var name = $('input[name=username]').val();
+                        var data = $user_edit.serializeArray();
+                        console.log(data);
+                    }
+                });
+
+            }
         });
     });
 </script>
