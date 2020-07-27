@@ -10,6 +10,8 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <style>
         #user_edit {
             margin-top: 30px;
@@ -30,8 +32,6 @@
     <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="getCheckData">批量删除</button>
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
         </div>
     </script>
 
@@ -39,12 +39,11 @@
     <script type="text/html" id="rightBar">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="changeStatus">禁用</a>
-        <a class="layui-btn layui-btn-xs" lay-event="changeStatus">启用</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="changeStatus">启用</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
 
-    <form class="layui-form" action="save" id="user_edit" method="post">
-
+    <form class="layui-form" style="display: none;" action="save" id="user_edit" method="post">
         <input type="hidden" value="" name="id">
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
@@ -63,21 +62,47 @@
         <div class="layui-form-item">
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+                <input type="text" class="layui-input" required name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-normal" onclick="submitHandler()">保存</button>
+                <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                <button type="button" class="layui-btn layui-btn-danger" onclick="cancleHandler()">取消</button>
             </div>
         </div>
     </form>
 
 <script src="/static/layui/layui.all.js"></script>
+<script src="/static/validate/jquery.min.js"></script>
+<script src="/static/validate/jquery.validate.min.js"></script>
+<script src="/static/validate/messages_zh.min.js"></script>
+<script src="/static/validate/jquery.validate.extend.js"></script>
 <script>
+    var user_edit_index;
+    var render1;
     //一般直接写在一个js文件中
-    layui.use(['layer', 'form','table','jquery'], function(){
+    layui.use(['layer', 'jquery','laydate','upload','table'], function (layer, $, laydate,upload,table) {
         var layer = layui.layer;
         var table = layui.table;
+        var laydate = layui.laydate;
         var form = layui.form;
         var $ = layui.jquery;
 
-        var render1 = table.render({
+        //日期时间选择器
+        laydate.render({
+            elem: '#birthday'
+            ,type: 'datetime'
+        });
+
+        render1 = table.render({
             elem: '#userlist'
             ,url:'list3'
             ,page: true
@@ -92,9 +117,9 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'id', width:80, title: 'ID', sort: true,fixed:'left'}
                 ,{field:'username', width:120, title: '用户名',align: 'center'}
-                ,{field:'address', width:80, title: '地址', sort: true}
-                ,{field:'birthday', title: '出生日期',sort: true}
-                ,{fixed: 'right', title:'操作', toolbar: '#rightBar', width:250}
+                ,{field:'address', width:180, title: '地址', sort: true}
+                ,{field:'birthday', width:160, title: '出生日期',sort: true,align: 'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#rightBar',fixed: 'right'}
             ]]
         });
 
@@ -123,15 +148,6 @@
                             time: 2000 //2秒关闭（如果不配置，默认是3秒）
                         });
                     });
-
-
-                    break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
                     break;
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
@@ -140,25 +156,44 @@
             };
         });
 
+        $("#user_edit").validate({
+            onkeyup: false,
+            rules: {
+                username: {
+                    minlength: 5,
+                    maxlength: 20,
+                },
+                address: {
+                    minlength: 10,
+                    maxlength: 50,
+                }
+
+            }
+        });
+
         table.on('tool(userlist)', function(obj){
             var data = obj.data;
             // console.log(data.id);
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     $.ajax({url:"delAll/"+data.id,success:function(result){
-                            if(result){
-                                render1.reload({page:{curr:1}});
-                            }
-                        }});
-                    layer.close(index);
-                    layer.msg('删除成功！', {
-                        icon: 1,
-                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                    });
+                        if(result){
+                            render1.reload({page:{curr:1}});
+                            layer.close(index);
+                            layer.msg('删除成功！', {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            });
+                        } else {
+                            layer.msg('删除失败！', {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            });
+                        }
+                    }});
                 });
             } else if(obj.event === 'edit'){
-
-                $.ajax({url:"getUserById/"+data.id,success:function(data) {
+                $.ajax({url:"getUserById/"+data.id,async:false,success:function(data) {
                         if (data) {
                             var obj = $.parseJSON(data)
                             $('input[name=username]').val(obj.username);
@@ -170,26 +205,51 @@
                 });
                 var $user_edit = $('#user_edit');
                 //示范一个公告层
-                layer.open({
+                user_edit_index = layer.open({
                     type: 1
                     ,title: ['编辑用户信息', 'font-size:18px; background-color: #eea236;']
                     ,closeBtn: 1
                     ,area:['500px', '400px']
                     ,shade: 0.4
                     ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                    ,btn: ['火速围观', '残忍拒绝']
                     ,btnAlign: 'c'
                     ,content: $user_edit
-                    ,success: function(layero){
-                        // var name = $('input[name=username]').val();
-                        var data = $user_edit.serializeArray();
-                        console.log(data);
+                    ,cancel: function(index, layero){
+                        layer.close(user_edit_index);
+                        $("#user_edit").hide();
+                        return false;
                     }
                 });
-
             }
         });
     });
+    function submitHandler() {
+        if ($("#user_edit").validate().form()) {
+            var data = $("#user_edit").serializeArray();
+            $.ajax({url:"editSave/",data,success:function(result){
+                    if(result > 0){
+                        render1.reload({page:{curr:1}});
+                        layer.msg('修改成功！', {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
+                    } else {
+                        layer.msg('修改失败！', {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
+                    }
+                }});
+            $("#user_edit").hide();
+            layer.close(user_edit_index);
+        } else {
+
+        }
+    }
+    function cancleHandler() {
+        layer.close(user_edit_index);
+        $("#user_edit").hide();
+    }
 </script>
 </body>
 </html>

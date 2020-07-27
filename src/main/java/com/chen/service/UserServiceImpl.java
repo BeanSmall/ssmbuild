@@ -32,6 +32,10 @@ public class UserServiceImpl implements UserService{
         return userMapper.getUserById(id);
     }
 
+    public int editSave(User user) {
+        return userMapper.editSave(user);
+    }
+
     public boolean delAll(String ids) {
         boolean flag = true;
         if(ids != null){

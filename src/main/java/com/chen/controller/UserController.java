@@ -82,6 +82,14 @@ public class UserController extends BaseController{
     }
 
 
+    @RequestMapping("/editSave")
+    @ResponseBody
+    public int editSave(User user) {
+        return userService.editSave(user);
+    }
+
+
+
     //根据id查询用户信息
     @RequestMapping("/getUserById/{id}")
     @ResponseBody

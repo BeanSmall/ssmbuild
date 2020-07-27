@@ -29,4 +29,15 @@
       update sys_user set del_flag = '1' where id = #{id};
     </delete>
 
+    <update id="editSave" parameterType="User">
+        update sys_user
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

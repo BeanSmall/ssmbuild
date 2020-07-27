@@ -51,8 +51,6 @@
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" src="/user/tolist">用户查询</a></dd>
                         <dd><a href="javascript:;" src="/user/add">用户新增</a></dd>
-                        <dd><a href="javascript:;">用户修改</a></dd>
-                        <dd><a href="javascript:;">用户删除</a></dd>
                     </dl>
                 </li>
             </ul>
