@@ -88,6 +88,12 @@ public class UserController extends BaseController{
         return userService.editSave(user);
     }
 
+    @RequestMapping("/updateStatus")
+    @ResponseBody
+    public int updateStatus(User user) {
+        return userService.updateStatus(user);
+    }
+
 
 
     //根据id查询用户信息

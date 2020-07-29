@@ -19,18 +19,19 @@
         }
 
         .btn_status {
-           /* top: 30%;
-            transform: translateY(20%);*/
+            margin-top: 3.5px;
+            width: 50px;
+        }
+
+        .switchstatus+div  {
+            margin-top: 2px!important;;
         }
     </style>
 </head>
 <body>
-
     <br>
     <hr>
-
     <table class="layui-hide" id="userlist" lay-filter="userlist"></table>
-
     <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="getCheckData">批量删除</button>
@@ -38,15 +39,19 @@
         </div>
     </script>
 
+    <script type="text/html" id="switchStatus">
+        <input type="checkbox" class="switchstatus" name="status" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="statusDemo" {{ d.status == 0 ?'checked' : '' }}>
+    </script>
+
     <script type="text/html" id="user_status">
-        <input type="button" class="btn_status layui-btn layui-btn-normal layui-btn-xs" value="{{d.del_flag == 0 ? '正常' : '已删除' }}">
+        {{d.del_flag == 0 ? '<span class="btn_status layui-btn layui-btn-normal layui-btn-xs">正常</span>' : '<span class="btn_status layui-btn layui-btn-danger layui-btn-xs">已删除</span>'}}
     </script>
 
     <script type="text/html" id="rightBar">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="changeStatus">禁用</a>
-        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="changeStatus">启用</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <%--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="changeStatus">禁用</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="changeStatus">启用</a>--%>
+        {{d.del_flag == 0 ? '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>' : '<a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-disabled" lay-event="del">删除</a>'}}
     </script>
 
     <form class="layui-form" style="display: none;" action="save" id="user_add" method="post">
@@ -67,7 +72,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" autocomplete="off"  name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+                <input type="text" class="layui-input" autocomplete="off"  name="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
 
@@ -79,7 +84,6 @@
                 这里以限制 500KB 为例
             </div>
         </div>
-
         <%--<div class="layui-form-item">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
@@ -94,7 +98,6 @@
                 </div>
             </div>
         </div>--%>
-
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="submit"  class="layui-btn layui-btn-danger">提交</button>
@@ -111,14 +114,12 @@
                 <input type="text" id="username" name="username"   required placeholder="请输入姓名" autocomplete="off" class="layui-input">
             </div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">住址</label>
             <div class="layui-input-block">
                 <input type="text" name="address" required placeholder="请输入住址" autocomplete="off" class="layui-input">
             </div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
@@ -195,12 +196,16 @@
                 ,{field:'username', width:120, title: '用户名',align: 'center'}
                 ,{field:'address', width:180, title: '地址', sort: true}
                 ,{field:'birthday', width:160, title: '出生日期',sort: true,align: 'center'}
-                ,{field:'del_flag', width:120, title: '用户状态',templet: '#user_status',sort: true,align: 'center'}
+                ,{field:'status', title:'用户状态', width:105, templet: '#switchStatus',align: 'center',event: 'setStatus'}
+                ,{field:'del_flag', width:120, title: '是否删除',templet: '#user_status',sort: true,align: 'center'}
                 ,{fixed: 'right', title:'操作', width:250, toolbar: '#rightBar',fixed: 'right'}
             ]]
         });
 
-
+        //监听性别操作
+        form.on('switch(statusDemo)', function(obj){
+            console.log(obj);
+        });
 
         //头工具栏事件
         table.on('toolbar(userlist)', function(obj){
@@ -249,7 +254,6 @@
                     minlength: 10,
                     maxlength: 50,
                 }
-
             }
         });
 
@@ -264,7 +268,6 @@
                     minlength: 10,
                     maxlength: 50,
                 }
-
             }
         });
 
@@ -272,6 +275,13 @@
             var data = obj.data;
             // console.log(data.id);
             if(obj.event === 'del'){
+                if(data.del_flag == 1){
+                    layer.msg('用户已经被删除，不能重复操作！', {
+                        icon: 2,
+                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                    });
+                    return;
+                }
                 layer.confirm('真的删除行么', function(index){
                     $.ajax({url:"delAll/"+data.id,success:function(result){
                         if(result){
@@ -317,6 +327,20 @@
                         return false;
                     }
                 });
+            } else if (obj.event === 'setStatus'){
+                $.ajax({url:"updateStatus",data:{id:data.id,status:data.status},success:function(result){
+                        if(result){
+                            layer.msg('修改成功！', {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            });
+                        } else {
+                            layer.msg('修改失败！', {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            });
+                        }
+                    }});
             }
         });
     });
@@ -360,7 +384,6 @@
             $("#user_edit").hide();
             layer.close(user_edit_index);
         } else {
-
         }
     }
     function cancleHandler() {

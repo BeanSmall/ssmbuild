@@ -13,7 +13,7 @@
 
 
     <select id="getUserList" resultType="User">
-        select * from sys_user where del_flag = '0' limit #{from},#{pageSize};
+        select * from sys_user limit #{from},#{pageSize};
     </select>
 
     <select id="count" resultType="int">
@@ -36,6 +36,20 @@
             <if test="password != null and password != ''">password = #{password},</if>
             <if test="address != null and address != ''">address = #{address},</if>
             <if test="birthday != null">birthday = #{birthday},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus" parameterType="User">
+        update sys_user
+        <set>
+            <!--虽然此处status是字符串类型 但是判断的时候也不需要加引号-->
+            <if test="status != null and status != '' and status == 0">
+                status = '1'
+            </if>
+            <if test="status != null and status != '' and status == 1">
+                status = '0'
+            </if>
         </set>
         where id = #{id}
     </update>

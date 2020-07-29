@@ -50,4 +50,8 @@ public class UserServiceImpl implements UserService{
         }
         return flag;
     }
+
+    public int updateStatus(User user) {
+        return userMapper.updateStatus(user);
+    }
 }

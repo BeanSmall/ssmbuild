@@ -24,4 +24,6 @@ public interface UserMapper {
     int delById(@Param("id") Integer id);
 
     User getUserById(@Param("id") Integer id);
+
+    int updateStatus(User user);
 }

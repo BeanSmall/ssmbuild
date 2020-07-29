@@ -16,6 +16,7 @@ public class User implements Serializable {
     //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     //@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date birthday;
+    private String status;
 
     private String del_flag;
 
@@ -59,6 +60,14 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDel_flag() {

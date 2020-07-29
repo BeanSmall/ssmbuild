@@ -17,4 +17,6 @@ public interface UserService {
     boolean delAll(String ids);
 
     User getUserById(Integer id);
+
+    int updateStatus(User user);
 }
