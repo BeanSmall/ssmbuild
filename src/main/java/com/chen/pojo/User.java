@@ -17,6 +17,9 @@ public class User implements Serializable {
     //@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date birthday;
 
+    private String del_flag;
+
+
     public Integer getId() {
         return id;
     }
@@ -56,6 +59,14 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String getDel_flag() {
+        return del_flag;
+    }
+
+    public void setDel_flag(String del_flag) {
+        this.del_flag = del_flag;
     }
 
     @Override

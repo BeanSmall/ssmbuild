@@ -17,12 +17,14 @@
             margin-top: 30px;
             padding-right: 80px;
         }
+
+        .btn_status {
+           /* top: 30%;
+            transform: translateY(20%);*/
+        }
     </style>
 </head>
 <body>
-
-
-    <h1>用户</h1>
 
     <br>
     <hr>
@@ -36,6 +38,9 @@
         </div>
     </script>
 
+    <script type="text/html" id="user_status">
+        <input type="button" class="btn_status layui-btn layui-btn-normal layui-btn-xs" value="{{d.del_flag == 0 ? '正常' : '已删除' }}">
+    </script>
 
     <script type="text/html" id="rightBar">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -48,21 +53,21 @@
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
-                <input type="text" name="username" required placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                <input type="text" name="username" autocomplete="off" required placeholder="请输入姓名" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">住址</label>
             <div class="layui-input-block">
-                <input type="text" name="address" required placeholder="请输入住址" autocomplete="off" class="layui-input">
+                <input type="text" name="address" autocomplete="off" required placeholder="请输入住址" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+                <input type="text" class="layui-input" autocomplete="off"  name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
 
@@ -190,7 +195,8 @@
                 ,{field:'username', width:120, title: '用户名',align: 'center'}
                 ,{field:'address', width:180, title: '地址', sort: true}
                 ,{field:'birthday', width:160, title: '出生日期',sort: true,align: 'center'}
-                ,{fixed: 'right', title:'操作', toolbar: '#rightBar',fixed: 'right'}
+                ,{field:'del_flag', width:120, title: '用户状态',templet: '#user_status',sort: true,align: 'center'}
+                ,{fixed: 'right', title:'操作', width:250, toolbar: '#rightBar',fixed: 'right'}
             ]]
         });
 
