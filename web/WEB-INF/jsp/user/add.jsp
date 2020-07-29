@@ -22,60 +22,7 @@
 <body>
 <div id="box">
 
-    <form class="layui-form" action="save" id="user_add" method="post">
-        <div class="layui-form-item">
-            <label class="layui-form-label">姓名</label>
-            <div class="layui-input-block">
-                <input type="text" name="username" required placeholder="请输入姓名" autocomplete="off" class="layui-input">
-            </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">住址</label>
-            <div class="layui-input-block">
-                <input type="text" name="address" required placeholder="请输入住址" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">出生日期</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">头像</label>
-            <button type="button" class="layui-btn layui-btn-danger"  id="photo"><i class="layui-icon"></i>上传图片</button>
-            <input type="hidden" name="photo">
-            <div class="layui-inline layui-word-aux">
-                这里以限制 500KB 为例
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>备注</h5>
-                    </div>
-                    <div class="ibox-content no-padding">
-                        <div class="summernote">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="submit"  class="layui-btn layui-btn-danger">提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
-        </div>
-
-    </form>
 </div>
 
 <script src="/static/validate/jquery.min.js"></script>

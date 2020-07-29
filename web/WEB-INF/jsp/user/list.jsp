@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <style>
-        #user_edit {
+        #user_edit,#user_add {
             margin-top: 30px;
             padding-right: 80px;
         }
@@ -32,6 +32,7 @@
     <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="getCheckData">批量删除</button>
+            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="showAdd">新增用户</button>
         </div>
     </script>
 
@@ -43,12 +44,11 @@
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
 
-    <form class="layui-form" style="display: none;" action="save" id="user_edit" method="post">
-        <input type="hidden" value="" name="id">
+    <form class="layui-form" style="display: none;" action="save" id="user_add" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
-                <input type="text" id="username" name="username"  required placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                <input type="text" name="username" required placeholder="请输入姓名" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -62,7 +62,62 @@
         <div class="layui-form-item">
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" required name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+                <input type="text" class="layui-input" name="birthday" id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">头像</label>
+            <button type="button" class="layui-btn layui-btn-danger"  id="photo"><i class="layui-icon"></i>上传图片</button>
+            <input type="hidden" name="photo">
+            <div class="layui-inline layui-word-aux">
+                这里以限制 500KB 为例
+            </div>
+        </div>
+
+        <%--<div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>备注</h5>
+                    </div>
+                    <div class="ibox-content no-padding">
+                        <div class="summernote">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>--%>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit"  class="layui-btn layui-btn-danger">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="layui-form" style="display: none;" action="save" id="user_edit" method="post">
+        <input type="hidden" value="" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" id="username" name="username"   required placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">住址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" required placeholder="请输入住址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生日期</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" required name="birthday"  id="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
         <br>
@@ -93,6 +148,7 @@
         var layer = layui.layer;
         var table = layui.table;
         var laydate = layui.laydate;
+        var upload = layui.upload;
         var form = layui.form;
         var $ = layui.jquery;
 
@@ -100,6 +156,21 @@
         laydate.render({
             elem: '#birthday'
             ,type: 'datetime'
+        });
+
+        upload.render({
+            elem: '#photo'
+            ,url: 'upload' //改成您自己的上传接口
+            ,size: 500 //限制文件大小，单位 KB
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                //预读本地文件示例，不支持ie8
+                layer.load(2,{time: 200});
+            }
+            ,done: function(res){
+                layer.close();
+                layer.msg('上传成功');
+                console.log(res)
+            }
         });
 
         render1 = table.render({
@@ -122,6 +193,8 @@
                 ,{fixed: 'right', title:'操作', toolbar: '#rightBar',fixed: 'right'}
             ]]
         });
+
+
 
         //头工具栏事件
         table.on('toolbar(userlist)', function(obj){
@@ -150,10 +223,28 @@
                     });
                     break;
                 //自定义头工具栏右侧图标 - 提示
+                case 'showAdd':
+                    showAdd();
+                    break;
                 case 'LAYTABLE_TIPS':
                     layer.alert('这是工具栏右侧自定义的一个图标按钮');
                     break;
             };
+        });
+
+        $("#user_add").validate({
+            onkeyup: false,
+            rules: {
+                username: {
+                    minlength: 5,
+                    maxlength: 20,
+                },
+                address: {
+                    minlength: 10,
+                    maxlength: 50,
+                }
+
+            }
         });
 
         $("#user_edit").validate({
@@ -196,10 +287,10 @@
                 $.ajax({url:"getUserById/"+data.id,async:false,success:function(data) {
                         if (data) {
                             var obj = $.parseJSON(data)
-                            $('input[name=username]').val(obj.username);
-                            $("input[name=address]").val(obj.address);
-                            $("input[name=birthday]").val(obj.birthday);
-                            $("input[name=id]").val(obj.id);
+                            $('#user_edit input[name=username]').val(obj.username);
+                            $("#user_edit input[name=address]").val(obj.address);
+                            $("#user_edit input[name=birthday]").val(obj.birthday);
+                            $("#user_edit input[name=id]").val(obj.id);
                         }
                     }
                 });
@@ -223,6 +314,26 @@
             }
         });
     });
+
+    function showAdd(){
+        //示范一个公告层
+        var user_add_index = layer.open({
+            type: 1
+            ,title: ['新增用户信息', 'font-size:18px; background-color: #eea236;']
+            ,closeBtn: 1
+            ,area:['500px', '400px']
+            ,shade: 0.4
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,btnAlign: 'c'
+            ,content: $('#user_add')
+            ,cancel: function(index, layero){
+                layer.close(user_add_index);
+                $("#user_add").hide();
+                return false;
+            }
+        });
+    }
+
     function submitHandler() {
         if ($("#user_edit").validate().form()) {
             var data = $("#user_edit").serializeArray();
