@@ -18,7 +18,7 @@
             width:100%;
             border:0;
             height: 100%;
-            padding:0px 0px 0px 10px;
+            padding:0px 0px 0px 0px;
         }
     </style>
 </head>
