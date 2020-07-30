@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 29/07/2020 19:01:59
+ Date: 30/07/2020 18:34:28
 */
 
 SET NAMES utf8mb4;
@@ -46,36 +46,39 @@ CREATE TABLE `sys_user`  (
   `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `birthday` datetime(0) NULL DEFAULT NULL,
-  `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0:启用  1:停用',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '0:启用  1:停用',
   `del_flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '0:正常  1:删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, '小明454444', '123456', '郑州二七区颖河路78号院', '2020-07-27 11:43:22', '0', '0');
-INSERT INTO `sys_user` VALUES (2, 'admin', '123456', '信阳', '2010-08-08 00:00:00', '1', '0');
-INSERT INTO `sys_user` VALUES (3, '小明11', '123456', NULL, NULL, '0', '1');
-INSERT INTO `sys_user` VALUES (4, '小明12', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (5, '小明13', '123456', NULL, NULL, '1', '0');
-INSERT INTO `sys_user` VALUES (6, '小明14', '123456', NULL, NULL, '1', '0');
-INSERT INTO `sys_user` VALUES (7, '小明15', '123456', NULL, NULL, '1', '0');
-INSERT INTO `sys_user` VALUES (8, '小明16', '123456', NULL, NULL, '1', '0');
-INSERT INTO `sys_user` VALUES (9, '小明17', '123456', NULL, NULL, '1', '0');
-INSERT INTO `sys_user` VALUES (10, '小明18', '123456', NULL, NULL, '1', '0');
-INSERT INTO `sys_user` VALUES (11, '小明19', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (12, 'admin10', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (13, '小明118', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (14, '小明128', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (15, '小明138', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (16, '小明148', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (17, '小明158', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (18, '小明168', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (19, '小明178', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (20, '小明188', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (21, '小明198', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (22, 'admin108', '123456', NULL, NULL, '0', '0');
-INSERT INTO `sys_user` VALUES (23, 'admin11110', '123456', NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (1, '小明454444', '123456', '郑州二七区颖河路78号院', '2020-07-27 11:43:22', NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (2, 'admin', '123456', '信阳', '2010-08-08 00:00:00', NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (3, '小明11', '123456', NULL, NULL, NULL, '0', '1');
+INSERT INTO `sys_user` VALUES (4, '小明12', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (5, '小明13', '123456', NULL, NULL, NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (6, '小明14', '123456', NULL, NULL, NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (7, '小明15', '123456', NULL, NULL, NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (8, '小明16', '123456', NULL, NULL, NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (9, '小明17', '123456', NULL, NULL, NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (10, '小明18', '123456', NULL, NULL, NULL, '1', '0');
+INSERT INTO `sys_user` VALUES (11, '小明19', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (12, 'admin10', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (13, '小明118', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (14, '小明128', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (15, '小明138', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (16, '小明148', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (17, '小明158', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (18, '小明168', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (19, '小明178', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (20, '小明188', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (21, '小明198', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (22, 'admin108', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (23, 'admin11110', '123456', NULL, NULL, NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (24, '测试2222222', NULL, '二七区颍河路18号院222222', '2020-07-07 12:00:00', NULL, '0', '0');
+INSERT INTO `sys_user` VALUES (25, '哈教科书的那可怜的那看来但', NULL, '就阿喀琉斯点击后拉萨大家安排看大家来看', '2020-07-30 13:02:32', '<h1><b><u><span style=\"font-size: 14px;\">就hi卡拉圣诞节欧拉收到</span></u></b></h1><h4><b><u><span style=\"font-size: 14px; background-color: rgb(255, 255, 0);\">啊大大大</span></u></b></h4>', '0', '0');
 
 SET FOREIGN_KEY_CHECKS = 1;
