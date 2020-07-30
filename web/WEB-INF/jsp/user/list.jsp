@@ -56,7 +56,7 @@
         {{d.del_flag == 0 ? '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>' : '<a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-disabled" lay-event="del">删除</a>'}}
     </script>
 
-    <form class="layui-form" style="display: none;" action="save" id="user_add" method="post">
+    <form class="layui-form" style="display: none;" id="user_add" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
@@ -81,7 +81,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">头像</label>
             <button type="button" class="layui-btn layui-btn-danger" id="photo"><i class="layui-icon"></i>上传图片</button>
-            <input type="hidden" name="photo">
+            <input type="hidden" name="imgurl" id="addphoto" />
             <div class="layui-inline layui-word-aux">
                 这里以限制 500KB 为例
             </div>
@@ -93,7 +93,7 @@
                     <div class="ibox-title">
                     </div>
                     <div class="ibox-content no-padding">
-                        <input id="noticeContent" name="content" type="hidden">
+                        <input id="noticeContent" name="content" type="hidden" />
                         <div class="summernote">
                         </div>
                     </div>
@@ -102,7 +102,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit"  class="layui-btn layui-btn-danger"  onclick="addSubmitHandler()">提交</button>
+                <button type="button"  class="layui-btn layui-btn-danger"  onclick="addSubmitHandler()">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -207,7 +207,7 @@
             ,done: function(res){
                 layer.close();
                 layer.msg('上传成功');
-                console.log(res)
+                $("#addphoto").val(res.msg);
             }
         });
 

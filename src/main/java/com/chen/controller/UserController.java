@@ -5,15 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.chen.pojo.User;
 import com.chen.service.UserService;
 import com.chen.util.LayData;
+import com.chen.util.QiNiuYunUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -115,10 +116,45 @@ public class UserController extends BaseController{
     }
 
 
-    @RequestMapping(value="/upload")
+    @RequestMapping(value="/uploadLocal")
     @ResponseBody
-    public String upload(@RequestParam("file") MultipartFile file) throws Exception{
+    public String uploadLocal(@RequestParam("file") MultipartFile file) throws Exception{
         FileUtil.writeBytes(file.getBytes(),"D:/upload/1.png");
         return JSONObject.toJSONString(new LayData(0,"上传成功"));
+    }
+
+    @RequestMapping(value = "/upload")
+    @ResponseBody
+    public String uploadPictures(@RequestParam("file") MultipartFile[] files, HttpServletRequest request) {
+        if (files != null || files.length != 0) {
+            for (int i = 0; i < files.length; i++) {
+                //上传的文件名
+                String fileName = files[i].getOriginalFilename();
+                // 3. 通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
+                String destFileName = request.getRealPath("") + "img" + File.separator + fileName;
+                //第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录
+                File destFile = new File(destFileName);
+                destFile.getParentFile().mkdirs();
+                try {
+                    //把浏览器上传的文件复制到希望的位置
+                    files[i].transferTo(destFile);
+                    //上传到七牛云并返回上传到七牛云的路径,可以复制路径在浏览器访问
+                    String url = QiNiuYunUtil.uploadQiniuYun(destFileName);
+                    System.out.println("图片路径:" + url);
+                    // 图片上传到七牛云后删除上传的文件
+                    destFile.delete();
+                    try {
+                        //这里延迟两秒让七牛云缓一下
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return JSONObject.toJSONString(new LayData(0,url));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return "index";
     }
 }
