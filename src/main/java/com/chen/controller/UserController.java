@@ -75,10 +75,11 @@ public class UserController extends BaseController{
         return "user/add";
     }
 
-    @RequestMapping("/save")
-    public String addSave(User user) {
+    @RequestMapping("/addSave")
+    @ResponseBody
+    public int addSave(User user) {
         System.out.println(user);
-        return "user/add";
+        return userService.addSave(user);
     }
 
 

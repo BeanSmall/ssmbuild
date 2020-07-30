@@ -19,6 +19,8 @@ public interface UserMapper {
 
     int count();
 
+    int addSave(User user);
+
     int editSave(User user);
 
     int delById(@Param("id") Integer id);

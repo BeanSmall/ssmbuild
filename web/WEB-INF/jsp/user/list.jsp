@@ -74,7 +74,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" autocomplete="off" required  name="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
+                <input type="text" class="layui-input" autocomplete="off" id="add_birthday" required  name="birthday" placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
 
@@ -93,6 +93,7 @@
                     <div class="ibox-title">
                     </div>
                     <div class="ibox-content no-padding">
+                        <input id="noticeContent" name="content" type="hidden">
                         <div class="summernote">
                         </div>
                     </div>
@@ -101,7 +102,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit"  class="layui-btn layui-btn-danger">提交</button>
+                <button type="submit"  class="layui-btn layui-btn-danger"  onclick="addSubmitHandler()">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -144,7 +145,7 @@
 
 <script src="/static/layui/layui.all.js"></script>
 <script src="/static/validate/jquery.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>js/
+<script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/validate/jquery.validate.min.js"></script>
 <script src="/static/validate/messages_zh.min.js"></script>
 <script src="/static/validate/jquery.validate.extend.js"></script>
@@ -153,6 +154,7 @@
 <script>
     var user_edit_index;
     var render1;
+    var user_add_index;
     //一般直接写在一个js文件中
     layui.use(['layer', 'jquery','laydate','upload','table'], function (layer, $, laydate,upload,table) {
         var layer = layui.layer;
@@ -167,6 +169,13 @@
             elem: '#birthday'
             ,type: 'datetime'
         });
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#add_birthday'
+            ,type: 'datetime'
+        });
+
 
         $(document).ready(function () {
             $('.summernote').summernote({
@@ -339,7 +348,7 @@
                     type: 1
                     ,title: ['编辑用户信息', 'font-size:18px; background-color: #eea236;']
                     ,closeBtn: 1
-                    ,area:['500px', '400px']
+                    ,area:['1380px', '680px']
                     ,shade: 0.4
                     ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     ,btnAlign: 'c'
@@ -370,7 +379,7 @@
 
     function showAdd(){
         //示范一个公告层
-        var user_add_index = layer.open({
+        user_add_index = layer.open({
             type: 1
             ,title: ['新增用户信息', 'font-size:18px; background-color: #eea236;']
             ,closeBtn: 1
@@ -409,6 +418,33 @@
         } else {
         }
     }
+
+    function addSubmitHandler() {
+        if ($("#user_add").validate().form()) {
+            var sHTML = $('.summernote').summernote('code');
+            $("#noticeContent").val(sHTML);
+            var data = $("#user_add").serializeArray();
+            $.ajax({url:"addSave",data,success:function(result){
+                    if(result > 0){
+                        render1.reload({page:{curr:1}});
+                        layer.msg('新增成功！', {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
+                    } else {
+                        layer.msg('新增失败！', {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
+                    }
+                }});
+            $("#user_add").hide();
+            layer.close(user_add_index);
+        } else {
+        }
+    }
+
+
     function cancleHandler() {
         layer.close(user_edit_index);
         $("#user_edit").hide();

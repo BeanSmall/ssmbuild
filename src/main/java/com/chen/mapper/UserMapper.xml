@@ -29,6 +29,30 @@
       update sys_user set del_flag = '1' where id = #{id};
     </delete>
 
+    <insert id="addSave" parameterType="User">
+        insert into sys_user (
+          <trim suffixOverrides=",">
+            <if test="username != null and username != ''">username,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="imgurl != null and imgurl != ''">imgurl,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="status != null and status != ''">status,</if>
+          </trim>
+        )values(
+          <trim suffixOverrides=",">
+              <if test="username != null and username != ''">#{username},</if>
+              <if test="password != null and password != ''">#{password},</if>
+              <if test="address != null and address != ''">#{address},</if>
+              <if test="birthday != null">#{birthday},</if>
+              <if test="imgurl != null and imgurl != ''">#{imgurl},</if>
+              <if test="content != null and content != ''">#{content},</if>
+              <if test="status != null and status != ''">#{status},</if>
+          </trim>
+        )
+    </insert>
+
     <update id="editSave" parameterType="User">
         update sys_user
         <set>

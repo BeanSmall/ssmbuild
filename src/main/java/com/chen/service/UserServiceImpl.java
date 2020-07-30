@@ -32,6 +32,12 @@ public class UserServiceImpl implements UserService{
         return userMapper.getUserById(id);
     }
 
+
+    public int addSave(User user) {
+        return userMapper.addSave(user);
+    }
+
+
     public int editSave(User user) {
         return userMapper.editSave(user);
     }

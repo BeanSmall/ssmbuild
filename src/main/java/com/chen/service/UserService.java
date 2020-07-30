@@ -12,6 +12,8 @@ public interface UserService {
 
     int count();
 
+    int addSave(User user);
+
     int editSave(User user);
 
     boolean delAll(String ids);

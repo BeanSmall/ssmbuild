@@ -17,6 +17,8 @@ public class User implements Serializable {
     //@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date birthday;
 
+    private String imgurl;
+
     private String content;
 
     private String status;
@@ -63,6 +65,14 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String getImgurl() {
+        return imgurl;
+    }
+
+    public void setImgurl(String imgurl) {
+        this.imgurl = imgurl;
     }
 
     public String getContent() {
