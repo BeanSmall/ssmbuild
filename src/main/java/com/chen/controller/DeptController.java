@@ -10,6 +10,7 @@ public class DeptController {
 
     @RequestMapping("/list")
     public String toDeptList() {
+
         return "dept/list";
     }
 }

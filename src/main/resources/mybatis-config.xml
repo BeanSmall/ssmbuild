@@ -14,10 +14,4 @@
         <package name="com.chen.pojo"/>
     </typeAliases>
 
-    <mappers>
-        <mapper resource="com/chen/mapper/BookMapper.xml"/>
-        <mapper resource="com/chen/mapper/UserMapper.xml"/>
-    </mappers>
-
-
 </configuration>
