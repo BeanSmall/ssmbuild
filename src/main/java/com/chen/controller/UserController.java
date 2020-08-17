@@ -144,8 +144,8 @@ public class UserController extends BaseController{
                     // 图片上传到七牛云后删除上传的文件
                     destFile.delete();
                     try {
-                        //这里延迟两秒让七牛云缓一下
-                        Thread.sleep(2000);
+                        //这里延迟1秒让七牛云缓一下
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

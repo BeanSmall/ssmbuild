@@ -94,8 +94,7 @@
                     </div>
                     <div class="ibox-content no-padding">
                         <input id="noticeContent" name="content" type="hidden" />
-                        <div class="summernote">
-                        </div>
+                        <div class="summernote"></div>
                     </div>
                 </div>
             </div>
@@ -227,7 +226,7 @@
                 ,{field:'id', width:80, title: 'ID', sort: true,fixed:'left'}
                 ,{field:'username', width:120, title: '用户名',align: 'center'}
                 ,{field:'address', width:180, title: '地址', sort: true}
-                ,{field:'birthday', width:160, title: '出生日期',sort: true,align: 'center'}
+                ,{field:'birthday', width:160, title: '出生日期',templet:'<div>{{ d.birthday == null?"":layui.util.toDateString(d.birthday, "yyyy-MM-dd HH:mm:ss") }}</div>',sort: true,align: 'center'}
                 ,{field:'status', title:'用户状态', width:105, templet: '#switchStatus',align: 'center',event: 'setStatus'}
                 ,{field:'del_flag', width:120, title: '是否删除',templet: '#user_status',sort: true,align: 'center'}
                 ,{fixed: 'right', title:'操作', width:250, toolbar: '#rightBar',fixed: 'right'}
