@@ -23,6 +23,15 @@
             <version>4.12</version>
         </dependency>
 
+        <!--log4j-->
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+
         <!-- spring-webmvc -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -52,18 +61,19 @@
 
         <!-- mybatis框架 -->
         <!--调高mybatis 的 版本-->
-        <dependency>
+        <!--2020-08-24  使用mybatisplus 注释掉一下两个依赖-->
+        <!--<dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.5.5</version>
-        </dependency>
+        </dependency>-->
 
         <!-- mybatis-spring -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
             <version>2.0.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- spring-jdbc -->
         <dependency>
@@ -144,6 +154,7 @@
         </dependency>
 
         <!--MyBatis Plus 依赖-->
+        <!--引入 MyBatis-Plus 之后请不要再次引入 MyBatis 以及 MyBatis-Spring，以避免因版本差异导致的问题。-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>

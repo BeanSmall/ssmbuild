@@ -9,6 +9,10 @@
     <!--<setting name="" value=""/>-->
     <!--</settings>-->
 
+    <settings>
+       <setting name="logImpl" value="log4j"/>
+    </settings>
+
     <!--别名-->
     <typeAliases>
         <package name="com.chen.pojo"/>

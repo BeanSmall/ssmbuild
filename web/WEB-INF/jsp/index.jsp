@@ -58,10 +58,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">部门管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" src="/dept/list">部门查询</a></dd>
-                        <dd><a href="javascript:;">部门新增</a></dd>
-                        <dd><a href="javascript:;">部门修改</a></dd>
-                        <dd><a href="javascript:;">部门删除</a></dd>
+                        <dd><a href="javascript:;" src="/dept/tolist">部门查询</a></dd>
                     </dl>
                 </li>
             </ul>
